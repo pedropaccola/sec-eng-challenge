@@ -27,7 +27,7 @@ The `start.sh` script sets up automatically the minikube environment, the expose
 ## Todo
 * Implement a basic front-end
 * Refactor file/folder structure
-* Add tests using
+* Add tests / improve test coverage
 * CI with Github Actions for testing with jest, building and pushing to DockerHub registry
 * Implement IaC using Terraform for GCP in addition with files 
 

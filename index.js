@@ -10,7 +10,7 @@ const uploadsPath = path.join(__dirname, "uploads/");
 const passwords = {};
 const allowedFiletypes = /gz/;
 
-const upload = multer({ 
+const upload = multer({
   storage: multer.diskStorage({
     destination: "uploads/",
     filename: function (req, file, cb) {
@@ -20,7 +20,7 @@ const upload = multer({
       cb(null, file.originalname);
     },
   }),
-  fileFilter:function (req, file, cb) {
+  fileFilter: function (req, file, cb) {
     // Filter extension
     if (allowedFiletypes.test(path.extname(file.originalname).toLowerCase())) {
       cb(null, true);
@@ -28,7 +28,8 @@ const upload = multer({
       req.notGz = true;
       cb(null, false);
     }
-  }});
+  },
+});
 
 app.listen(port, () => {
   console.log("Example app listening on port ", port);
@@ -44,27 +45,27 @@ app.get("/download/:filename", (req, res) => {
 
   // Check if file exists
   if (!fs.existsSync(filePath)) {
-    res.status(404).json({status: "file not found" });
+    res.status(404).json({ status: "file not found" });
+    return;
   }
   // Check password
   if (passwords[filename] != req.query.password) {
-    res.status(401).json({status: "incorrect password"});
+    res.status(401).json({ status: "incorrect password" });
     return;
   } else {
     res.sendFile(filePath);
   }
-
 });
 
 app.post("/upload", upload.single("file"), (req, res) => {
   //check if file exists (either by extension incompatibility or error)
   if (!req.file && req.notGz) {
-    res.status(415).json({status: "incompatible file format"})
+    res.status(415).json({ status: "incompatible file format" });
     return;
   } else if (!req.file) {
-    res.status(400).json({status: "file not received"})
+    res.status(400).json({ status: "file not received" });
     return;
-  };
+  }
 
   const message = req.fileExists ? "file overwritten" : "file created";
   const havePassword = req.body.password ? "true" : "false";
@@ -77,5 +78,5 @@ app.post("/upload", upload.single("file"), (req, res) => {
 // Error handling
 app.use((err, req, res, next) => {
   console.error(err.stack);
-    res.status(500).json({ error: "unexpected error: " + err.message });
+  res.status(500).json({ error: "unexpected error: " + err.message });
 });

@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: sec-eng-challenge-service
 spec:
-  type: NodePort 
+  type: ClusterIP
   selector:
     app: sec-eng-challenge
   ports:
-    - protocol: TCP
-      port: 3000
+    - name: http
+      protocol: TCP
+      port: 80 
       targetPort: 3000
-      nodePort: 30009

@@ -6,7 +6,7 @@ usage() {
     echo -e "\t$(basename ${0}) - run application locally"
     echo
     echo "SYNOPSYS"
-    echo -e "\t$(basename ${0}) OPTIONS..."
+    echo -e "\t$(basename ${0}) OPTIONS"
     echo 
     echo "OPTIONS"
     echo -e "\t -l: execute locally"
