@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sec-eng-challenge 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sec-eng-challenge 
+  template:
+    metadata:
+      labels:
+        app: sec-eng-challenge
+    spec:
+      containers:
+      - name: sec-eng-challengee
+        image: docker.io/pedropaccola/sec-eng-challenge:1.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PORT
+          value: "3000"
+        resources:
+          limits:
+            cpu: "2"
+            memory: "256Mi" 
+        livenessProbe:
+          failureThreshold: 5
+          httpGet:
+            path: /
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 5
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 3000
+            scheme: HTTP
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 5
